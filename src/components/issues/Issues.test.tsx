@@ -9,7 +9,6 @@ import * as actions from "../../features/issues/issuesSlice";
 
 const mockedSelector = jest.spyOn(reduxHooks, "useAppSelector");
 const mockedDispatch = jest.spyOn(reduxHooks, "useAppDispatch");
-const mockedUpdateIssues = jest.spyOn(actions, "updateIssues");
 
 const mockIssues = {
   toDo: [
@@ -62,12 +61,10 @@ describe("Issues component", () => {
       </Provider>
     );
 
-    // Проверьте, что каждый статус задачи отображается
     expect(screen.getByText("To Do")).toBeInTheDocument();
     expect(screen.getByText("In progress")).toBeInTheDocument();
     expect(screen.getByText("Done")).toBeInTheDocument();
 
-    // Проверьте, что задачи отображаются в каждом статусе
     expect(screen.getByText("ToDo Task 1")).toBeInTheDocument();
     expect(screen.getByText("InProgress Task 1")).toBeInTheDocument();
     expect(screen.getByText("Done Task 1")).toBeInTheDocument();
@@ -137,7 +134,6 @@ describe("Issues component", () => {
       </Provider>
     );
 
-    // Проверяем, что каждый статус задачи отображается
     expect(screen.getByText("To Do")).toBeInTheDocument();
     expect(screen.getByText("In progress")).toBeInTheDocument();
     expect(screen.getByText("Done")).toBeInTheDocument();

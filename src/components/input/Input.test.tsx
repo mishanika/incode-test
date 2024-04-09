@@ -11,7 +11,6 @@ describe("Input component", () => {
       </Provider>
     );
 
-    // Проверяем, что поле ввода и кнопка присутствуют
     expect(screen.getByPlaceholderText("Enter repository url")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Load issues" })).toBeInTheDocument();
   });
@@ -31,14 +30,12 @@ describe("Input component", () => {
       </Provider>
     );
 
-    // Заполним поле ввода
     fireEvent.change(screen.getByPlaceholderText("Enter repository url"), {
       target: { value: "https://github.com/owner/repo" },
     });
-    // Нажмем кнопку "Load issues"
+
     fireEvent.click(screen.getByRole("button", { name: "Load issues" }));
 
-    // Подождем, чтобы запрос был отправлен
     await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(2));
     await waitFor(() => expect(global.fetch).toHaveBeenCalledWith("https://api.github.com/repos/owner/repo"));
     await waitFor(() =>
@@ -55,13 +52,10 @@ describe("Input component", () => {
 
     const inputField = screen.getByPlaceholderText("Enter repository url");
 
-    // Проверяем, что поле ввода присутствует
     expect(inputField).toBeInTheDocument();
 
-    // Имитируем изменение значения в поле ввода
     fireEvent.change(inputField, { target: { value: "https://github.com/owner/repo" } });
 
-    // Проверяем, что функция setUrl была вызвана с правильным значением
     expect(inputField).toHaveValue("https://github.com/owner/repo");
   });
 
@@ -74,13 +68,10 @@ describe("Input component", () => {
 
     global.fetch = jest.fn().mockRejectedValueOnce(new Error("Invalid URL"));
 
-    // Имитируем ввод некорректного URL и клик на кнопку "Load issues"
     fireEvent.change(screen.getByPlaceholderText("Enter repository url"), { target: { value: "invalid-url" } });
     fireEvent.click(screen.getByRole("button", { name: "Load issues" }));
 
-    // Подождем, чтобы обработалась ошибка
     await waitFor(() => {
-      // Проверяем, что выводится сообщение об ошибке
       expect(screen.getByDisplayValue("Invalid URL")).toBeInTheDocument();
     });
   });
